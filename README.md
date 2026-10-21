@@ -145,6 +145,8 @@ src/
 - No lee ni escribe en tus proyectos de flow.google.com (no hay API pública para eso).
 - `flow_extend_video` solo funciona con videos generados por este servidor; en la Gemini API el archivo remoto caduca a los ~2 días y la extensión es a 720p.
 - Disponibilidad de funciones (4K, audio, imágenes de referencia, último fotograma) depende del modelo y de la región; si la API rechaza un parámetro, el error se devuelve al agente tal cual.
+- Con la Gemini API, `generateAudio` y `seed` no existen: el servidor los ignora y lo indica en `ignored`. Veo 3.x genera audio siempre; describe los sonidos en el prompt.
+- **Veo no tiene capa gratuita en la Gemini API.** Sin facturación activa verás `429 RESOURCE_EXHAUSTED` aunque no hayas generado nada. Actívala en <https://aistudio.google.com/apikey> ("Set up billing") y revisa el consumo en <https://aistudio.google.com/usage>.
 - Los videos de Veo llevan marca de agua SynthID.
 
 ## Licencia
