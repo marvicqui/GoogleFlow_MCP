@@ -3,7 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { loadConfig } from "./config.js";
-import { FlowClient } from "./flow.js";
+import { FlowClient, explainApiError } from "./flow.js";
 
 const cfg = loadConfig();
 const flow = new FlowClient(cfg);
@@ -23,7 +23,7 @@ function safe<A>(fn: (args: A) => Promise<Content[]>) {
       return { content: await fn(args) };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      return { content: [{ type: "text" as const, text: `Error: ${message}` }], isError: true };
+      return { content: [{ type: "text" as const, text: `Error: ${explainApiError(message, cfg)}` }], isError: true };
     }
   };
 }
@@ -56,8 +56,11 @@ server.registerTool(
       startImage: z.string().optional().describe("First frame: asset id or local image path."),
       endImage: z.string().optional().describe("Last frame: asset id or local image path (needs startImage)."),
       referenceImages: z.array(z.string()).max(3).optional().describe("Up to 3 'ingredient' images (asset ids or paths)."),
-      generateAudio: z.boolean().optional().describe("Request native audio (only where the API supports the flag)."),
-      seed: z.number().int().optional(),
+      generateAudio: z
+        .boolean()
+        .optional()
+        .describe("Vertex AI only. Leave unset on the Gemini API: Veo 3.x there always generates audio, so describe sounds in the prompt."),
+      seed: z.number().int().optional().describe("Vertex AI only; ignored on the Gemini API."),
       numberOfVideos: z.number().int().min(1).max(4).optional(),
       personGeneration: z.enum(["allow_all", "allow_adult", "dont_allow"]).optional(),
       wait: z.boolean().optional().describe("Wait for the render (default true). false returns an operationName immediately."),
