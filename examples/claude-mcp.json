@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "googleflow": {
+      "command": "node",
+      "args": ["/ruta/a/GoogleFlow_MCP/dist/index.js"],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}",
+        "FLOW_OUTPUT_DIR": "./flow-output"
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+# Añadir a ~/.codex/config.toml  (Windows: %USERPROFILE%\.codex\config.toml)
+[mcp_servers.googleflow]
+command = "node"
+args = ["C:\\src\\GoogleFlow_MCP\\dist\\index.js"]
+startup_timeout_sec = 30
+# Un video tarda 1-6 min; el valor por defecto de Codex (60 s) es muy corto.
+tool_timeout_sec = 600
+
+[mcp_servers.googleflow.env]
+GEMINI_API_KEY = "tu-api-key"
+FLOW_OUTPUT_DIR = "C:\\Users\\tu-usuario\\Videos\\flow"
